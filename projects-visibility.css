@@ -1,0 +1,99 @@
+/* Project page visibility repair: presentation-only, no behavior changes. */
+body[data-page="projects"] .logo h1,
+body[data-page="projects"] .logo p {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: 0 2px 12px rgba(0, 15, 35, .65) !important;
+  background: transparent !important;
+}
+
+body[data-page="projects"] .logo h1 {
+  display: block !important;
+}
+
+body[data-page="projects"] .logo p {
+  display: block !important;
+  color: #e6f7ff !important;
+  -webkit-text-fill-color: #e6f7ff !important;
+}
+
+body[data-page="projects"] .page-title,
+body[data-page="projects"] .page-title i,
+body[data-page="projects"] .project-body h3 {
+  color: #123b60 !important;
+  -webkit-text-fill-color: #123b60 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+body[data-page="projects"] .project-body p {
+  color: #42586b !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+body[data-page="projects"] .filter-btn,
+body[data-page="projects"] .filter-btn i {
+  color: #174d73 !important;
+  -webkit-text-fill-color: #174d73 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+body[data-page="projects"] .filter-btn.active,
+body[data-page="projects"] .filter-btn.active i {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+body[data-page="projects"] .contact-btn,
+body[data-page="projects"] .contact-btn i,
+body[data-page="projects"] .contact-btn span,
+body[data-page="projects"] .show-more-btn,
+body[data-page="projects"] .show-more-btn i {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: 0 1px 4px rgba(0, 20, 45, .35);
+}
+
+body[data-page="projects"] .contact-btn {
+  background: linear-gradient(135deg, #087c96, #4778e8) !important;
+  border: 0 !important;
+}
+
+body[data-page="projects"] .contact-btn.phone {
+  background: linear-gradient(135deg, #087c96, #4778e8) !important;
+}
+
+body[data-page="projects"] .contact-btn.wa,
+body[data-page="projects"] .contact-btn.wa-group {
+  background: linear-gradient(135deg, #078b72, #20b978) !important;
+}
+
+body[data-page="projects"] .contact-btn.fb {
+  background: linear-gradient(135deg, #1264cf, #3489f4) !important;
+}
+
+body[data-page="projects"] .show-more-btn {
+  background: linear-gradient(135deg, #103d63, #238ba2) !important;
+  border: 0 !important;
+}
+
+body[data-page="projects"] .category-badge,
+body[data-page="projects"] .category-badge span,
+body[data-page="projects"] .category-badge i {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body[data-page="projects"] .project-card,
+  body[data-page="projects"] .project-media img {
+    animation: none !important;
+    transition: none !important;
+  }
+}

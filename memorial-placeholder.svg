@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" role="img" aria-labelledby="title desc">
+  <title id="title">ذكرى طيبة</title>
+  <desc id="desc">رسم هادئ لضوء يمر من نافذة بين أغصان زيتون</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#102d45"/><stop offset="1" stop-color="#061424"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#f5d58b" stop-opacity=".82"/><stop offset="1" stop-color="#f5d58b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="light" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff8d9" stop-opacity=".95"/><stop offset="1" stop-color="#e9bd6e" stop-opacity=".18"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="620" rx="38" fill="url(#bg)"/>
+  <circle cx="450" cy="290" r="260" fill="url(#glow)"/>
+  <path d="M286 493V174h328v319" fill="none" stroke="#d8b56d" stroke-width="12" opacity=".8"/>
+  <path d="M324 493V218h252v275" fill="url(#light)" opacity=".76"/>
+  <path d="M450 218v275M324 356h252" stroke="#c99652" stroke-width="9" opacity=".7"/>
+  <path d="M135 518c36-112 71-180 143-232M136 518c58-31 110-74 142-127M126 446c55-15 101-39 142-77" fill="none" stroke="#86aa8b" stroke-width="8" stroke-linecap="round" opacity=".85"/>
+  <path d="M765 518c-36-112-71-180-143-232M764 518c-58-31-110-74-142-127M774 446c-55-15-101-39-142-77" fill="none" stroke="#86aa8b" stroke-width="8" stroke-linecap="round" opacity=".85"/>
+  <g fill="#a9c69a" opacity=".9">
+    <ellipse cx="224" cy="330" rx="38" ry="14" transform="rotate(-34 224 330)"/><ellipse cx="180" cy="395" rx="38" ry="14" transform="rotate(-10 180 395)"/>
+    <ellipse cx="676" cy="330" rx="38" ry="14" transform="rotate(34 676 330)"/><ellipse cx="720" cy="395" rx="38" ry="14" transform="rotate(10 720 395)"/>
+  </g>
+  <text x="450" y="565" text-anchor="middle" fill="#f8e5b0" font-family="Cairo, Arial, sans-serif" font-size="30" font-weight="700">ذكريات طيبة لا تغيب</text>
+</svg>

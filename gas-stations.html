@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>محطات بنزين قريبة | بوابة الكنزاوية</title>
+  <meta name="description" content="خريطة محطات البنزين القريبة من كمبوند كنز مع مسار مباشر إلى أقرب محطة." />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <!-- استخدام نسخة محلية من Leaflet بدلاً من CDN -->
+  <link rel="stylesheet" href="libs/leaflet/leaflet.css">
+  <style>
+    body { margin:0; font-family:'Cairo',sans-serif; background:#f6f9fc; color:#123; }
+    header { position: sticky; top:0; z-index:1000; background:#4a90e2; color:#fff; padding:14px 16px; box-shadow:0 2px 8px rgba(0,0,0,0.08); display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    header .title { display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.1rem; }
+    header a { color:#fff; text-decoration:none; font-size:1.4rem; }
+    .page { max-width:1100px; margin:14px auto 32px; padding:0 14px; }
+    .card { background:#fff; border-radius:14px; box-shadow:0 6px 18px rgba(0,0,0,0.08); padding:14px; margin-bottom:12px; }
+    #stations-map { width:100%; height:70vh; border-radius:12px; overflow:hidden; }
+    .controls { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; }
+    .btn { background:#031a8e; color:#f9fdff; border:1px solid #cfdbe5; padding:8px 12px; border-radius:6px; cursor:pointer; font-weight:700; display:inline-flex; align-items:center; gap:6px; font-size:0.9rem; transition:background .2s, box-shadow .2s; }
+    .btn:hover { background:#0c2461; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+    .list { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:10px; }
+    .station-item { background:#f7fbff; border:1px solid #e2ecf5; border-radius:10px; padding:10px; display:flex; flex-direction:column; gap:6px; }
+    .station-item h3 { margin:0; font-size:1rem; color:#1f5f9e; }
+    .station-item .addr { color:#666; font-size:0.92rem; }
+    .station-item .meta { color:#444; font-size:0.9rem; }
+    @media(max-width:640px){ #stations-map{height:65vh;} }
+  </style>
+    <link rel="stylesheet" href="premium-ui.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="button-contrast.css">
+</head>
+<body>
+<header>
+  <div class="title"><i class="fa-solid fa-gas-pump"></i><span>محطات بنزين قريبة</span></div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <a href="index.html" title="العودة للرئيسية"><i class="fa-solid fa-home"></i></a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="card">
+    <div class="controls">
+      <button id="locate-me" class="btn"><i class="fa-solid fa-location-crosshairs"></i> موقعي الآن</button>
+      <button id="nearest-station" class="btn"><i class="fa-solid fa-route"></i> أقرب محطة للكمبوند</button>
+      <button id="reset-view" class="btn"><i class="fa-solid fa-rotate-left"></i> عرض كل المحطات</button>
+    </div>
+    <div id="stations-map"></div>
+  </div>
+
+  <div class="card">
+    <h2 style="margin:0 0 10px;font-size:1.1rem;color:#0f4b8b;">قائمة المحطات</h2>
+    <div class="list" id="station-list"></div>
+  </div>
+</div>
+
+<!-- نسخة محلية من Leaflet -->
+<script src="libs/leaflet/leaflet.js"></script>
+<script>
+const defaultIcon = L.icon({
+  iconRetinaUrl: 'libs/leaflet/images/marker-icon-2x.png',
+  iconUrl:      'libs/leaflet/images/marker-icon.png',
+  shadowUrl:    'libs/leaflet/images/marker-shadow.png',
+  iconSize:     [25, 41],
+  iconAnchor:   [12, 41],
+  popupAnchor:  [1, -34],
+  shadowSize:   [41, 41]
+});
+L.Marker.prototype.options.icon = defaultIcon;
+</script>
+<script>
+// قائمة المحطات (أقرب للكمبوند)
+const stations = [
+  { name: "محطة شل أوت - طريق الفيوم",                      lat: 29.953193921896396, lng: 31.104572117198536, address: "طريق الفيوم", brand: "Chillout" },
+  { name: "محطة بنزين الشرق",                               lat: 29.94931075783546,   lng: 31.091890752971786, address: "طريق الفيوم", brand: "Al Sharq" },
+  { name: "محطة شل أوت - طريق الواحات",                     lat: 29.952680568458383,  lng: 31.086499512857248, address: "طريق الواحات", brand: "Chillout" },
+  { name: "محطة موبيل - صينية البترول مدخل الحي الإيطالي", lat: 29.930878197661887, lng: 31.04355332321315,  address: "صينية البترول - مدخل الحي الإيطالي", brand: "Mobil" },
+  { name: "محطة موبيل - طريق الواحات مدخل مدينة الفردوس",   lat: 29.95730491495708,  lng: 31.056997776021593, address: "طريق الواحات - مدخل مدينة الفردوس", brand: "Mobil" },
+  { name: "محطة وطنية - دريم بارك طريق الواحات",            lat: 29.958080790643184, lng: 31.063873283558863, address: "طريق الواحات - دريم بارك", brand: "Watanyia" },
+  { name: "محطة وطنية - أمام دريم لاند طريق الواحات",       lat: 29.96191534610792,  lng: 31.041162013765828, address: "طريق الواحات - أمام دريم لاند", brand: "Watanyia" },
+  { name: "محطة إيني - بجوار كمبوند دار مصر طريق وادي النطرون", lat: 29.946716845821584, lng: 31.022515296682396, address: "طريق وادي النطرون - بجوار كمبوند دار مصر", brand: "ENI" }
+];
+
+const map = L.map('stations-map', { zoomControl:true }).setView([29.9669, 31.0438], 13);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution:'&copy; OpenStreetMap contributors'
+}).addTo(map);
+
+const markers = [];
+const stationList = document.getElementById('station-list');
+
+function addStationItem(st, idx) {
+  const div = document.createElement('div');
+  div.className = 'station-item';
+  div.innerHTML = `
+    <h3>${st.name}</h3>
+    <div class="addr"><i class="fa-solid fa-map-pin"></i> ${st.address}</div>
+    <div class="meta"><i class="fa-solid fa-gas-pump"></i> ${st.brand}</div>
+    <div class="meta" style="display:flex;gap:6px;flex-wrap:wrap;">
+      <a class="btn" style="padding:6px 10px;font-size:0.85rem;"
+         href="https://www.google.com/maps/dir/?api=1&destination=${st.lat},${st.lng}&travelmode=driving" target="_blank" rel="noopener">
+         <i class="fa-solid fa-location-arrow"></i> اتجاهات
+      </a>
+      <button class="btn" style="padding:6px 10px;font-size:0.85rem;" onclick="zoomToStation(${idx})">
+        <i class="fa-solid fa-magnifying-glass-location"></i> تكبير
+      </button>
+    </div>
+  `;
+  stationList.appendChild(div);
+}
+
+stations.forEach((st, idx) => {
+  const marker = L.marker([st.lat, st.lng]).addTo(map);
+  marker.bindPopup(`
+    <div style="font-weight:700; margin-bottom:4px;">${st.name}</div>
+    <div style="color:#555; margin-bottom:6px;">${st.address}</div>
+    <a href="https://www.google.com/maps/dir/?api=1&destination=${st.lat},${st.lng}&travelmode=driving"
+       target="_blank" rel="noopener" style="color:#0a7a1c;font-weight:700;">
+       الحصول على مسار مباشر
+    </a>
+  `);
+  markers.push(marker);
+  addStationItem(st, idx);
+});
+
+// زوم لمحطة محددة
+window.zoomToStation = function(idx){
+  const st = stations[idx];
+  map.setView([st.lat, st.lng], 16);
+  markers[idx].openPopup();
+};
+
+// تحديد أقرب محطة لموقعي
+function getNearestStation(pos){
+  let best = null, bestDist = Infinity;
+  stations.forEach((st,i)=>{
+    const d = distance(pos.lat, pos.lng, st.lat, st.lng);
+    if(d < bestDist){ bestDist = d; best = { st, i, dist: d }; }
+  });
+  return best;
+}
+
+// حاسبة مسافة بسيطة (كم)
+function distance(lat1, lon1, lat2, lon2){
+  const R=6371;
+  const dLat=(lat2-lat1)*Math.PI/180;
+  const dLon=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function goToNearest(pos){
+  const nearest = getNearestStation(pos);
+  if(!nearest) return;
+
+  // تنبيه إذا كانت المسافة أكبر من 35 كم
+  if(nearest.dist > 35){
+    alert(`أنت تبعد حوالي ${nearest.dist.toFixed(1)} كم عن أقرب محطة من القائمة. تأكد من اختيار محطة أقرب لموقعك.`);
+  }
+
+  zoomToStation(nearest.i);
+}
+
+document.getElementById('reset-view').onclick = ()=> map.setView([29.9669, 31.0438], 13);
+
+function withLocation(cb){
+  if(!navigator.geolocation){
+    alert("المتصفح لا يدعم تحديد الموقع.");
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    (res)=> cb({lat: res.coords.latitude, lng: res.coords.longitude}),
+    (err)=> {
+      console.error('Geolocation error', err);
+      alert("تعذر الحصول على موقعك الحالي. تأكد من تفعيل الموقع ومنح الإذن للمتصفح.");
+    },
+    { enableHighAccuracy: true, timeout: 10000 }
+  );
+}
+
+document.getElementById('locate-me').onclick = ()=>{
+  withLocation(pos=>{
+    const me = L.circleMarker([pos.lat,pos.lng], {radius:8,color:'#ff5722',fillColor:'#ff5722',fillOpacity:0.8}).addTo(map);
+    me.bindPopup("موقعي الحالي").openPopup();
+    map.setView([pos.lat,pos.lng], 14);
+  });
+};
+
+document.getElementById('nearest-station').onclick = ()=>{
+  withLocation(pos=>{
+    goToNearest(pos);
+    alert("تم تكبير أقرب محطة. يمكنك الضغط على الرابط داخل البطاقة للحصول على المسار.");
+  });
+};
+</script>
+    <script src="premium-motion.js?v=2" defer></script>
+</body>
+</html>

@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>مطاعم وحلويات | بوابة الكنزاوية</title>
+    <meta name="description" content="كل أماكن المطاعم والكافيهات والحلويات حول كمبوند كنز مع تقييمات السكان." />
+    <!-- Google Analytics (keep as-is) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FX6BSCQ8KQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FX6BSCQ8KQ', { 'anonymize_ip': true });
+</script>
+    <link href="../styles.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+    <script src="data/restaurants.js"></script>
+    <script src="service_data_renderer.js"></script>
+    <script src="../app.js" type="module"></script>
+    <style>
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: #4a90e2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 16px 0 8px 0;
+        }
+        .logo h1 {
+            margin: 0;
+            font-size: 2.1rem;
+            color: #f9fdff;
+            font-weight: bold;
+            background: none;
+        }
+        .logo p {
+            margin: 0;
+            color: #f9fdff;
+            font-size: 1.1rem;
+            background: none;
+        }
+        .main-content {
+            max-width: 950px;
+            margin: 0 auto;
+            padding-top: 75px;
+            padding-bottom: 40px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            background-color: #dee8f0;
+            color: #007bff;
+            font-size: 0.7em;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0;
+            line-height: 1;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+        }
+        .section-card {
+            background: linear-gradient(120deg,#e6f7ff 70%,#f0f2f5 100%);
+            margin-top: 25px;
+            box-shadow: 0 8px 32px rgba(74,144,226,0.11);
+        }
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
+            gap: 22px;
+            margin-top: 30px;
+        }
+        .service-card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+            padding: 18px 22px 14px 22px;
+            transition: box-shadow 0.2s;
+            position: relative;
+            overflow:hidden;
+        }
+        .service-card:hover {
+            box-shadow: 0 8px 32px rgba(74,144,226,0.16);
+        }
+        .service-title {
+            font-size: 1.15em;
+            font-weight: bold;
+            color: #2567a1;
+            margin-bottom: 3px;
+        }
+        .service-address {
+            color: #888;
+            font-size: 0.97em;
+            margin-bottom: 3px;
+        }
+        .service-phone {
+            font-size: 1.03em;
+            color: #007bff;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 9px;
+        }
+        .average-rating {
+            margin: 10px 0 8px 0;
+            font-weight: bold;
+            color: #ff9800;
+            font-size: 1.07em;
+        }
+        .old-likes-info {
+            color: #777;
+            font-size: 0.92em;
+            margin-bottom: 5px;
+        }
+        .label {
+            background: #4a90e2;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 0.9em;
+            padding: 2px 7px;
+            margin-left: 5px;
+        }
+                /* شارة عدد الكروت */
+.count-badge{
+  background:linear-gradient(145deg,#ff9800,#ffb74d);
+  color:#fff;
+  font-weight:700;
+  font-size:0.78rem;
+  padding:6px 12px 7px;
+  border-radius:30px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-right:10px;
+  box-shadow:0 3px 10px rgba(0,0,0,.18);
+  position:relative;
+}
+.count-badge:before{
+  content:"#";
+  font-size:.75rem;
+  opacity:.85;
+}
+@media (max-width:600px){
+  .count-badge{
+    margin-top:8px;
+    font-size:0.72rem;
+    padding:5px 10px 6px;
+  }
+}
+
+        @media (max-width:600px) {
+            .services-list {
+                grid-template-columns: 1fr;
+            }
+            .section-card {
+                padding: 18px 6px 8px 6px;
+            }
+  .header{
+    padding:10px 0 6px;
+  }
+  .logo h1{
+    font-size:1.55rem;
+  }
+  .logo p{
+    font-size:0.9rem;
+  }
+}
+                /* ---- إصلاح خروج محتوى الهواتف والبادجات (حل A) ---- */
+        .service-card { overflow:hidden; }
+
+        .service-phone {
+            display:flex;
+            flex-wrap:wrap;
+            align-items:center;
+            gap:6px 8px;
+            line-height:1.4;
+        }
+        .service-phone a {
+            color:#007bff;
+            text-decoration:none;
+            font-weight:600;
+            direction:ltr;
+            unicode-bidi:plaintext;
+            white-space:nowrap;
+            font-size:0.95em;
+        }
+        .service-phone a:hover { text-decoration:underline; }
+
+        .service-phone .label {
+            background:#4a90e2;
+            color:#fff;
+            border-radius:6px;
+            padding:3px 8px 4px;
+            font-size:0.75rem;
+            line-height:1.2;
+            display:inline-flex;
+            align-items:center;
+            white-space:nowrap;
+            margin:2px 0;
+            order:2;
+        }
+        .service-phone .label:first-of-type {
+            flex-basis:100%;
+            margin-top:4px;
+        }
+        .service-phone .label:first-of-type + .label {
+            flex-basis:100%;
+        }
+        .service-phone a[target="_blank"] {
+            background:#0d7d2a;
+            color:#fff;
+            padding:4px 10px;
+            border-radius:6px;
+            font-size:0.72rem;
+            font-weight:600;
+            white-space:nowrap;
+            order:3;
+            text-decoration:none;
+        }
+        .service-phone a[target="_blank"]:hover {
+            background:#0a5c20;
+        }
+    </style>
+    <link rel="stylesheet" href="../premium-ui.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="../button-contrast.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>بوابة الكنزاوية</h1>
+            <p>دليل المطاعم والكافيهات والحلويات</p>
+        </div>
+        <div style="width:100%; display: flex; justify-content: flex-start; align-items: center; padding-right: 35px; margin-top: 1px;">
+            <a href="../index.html" class="icon-btn" data-tooltip="العودة للصفحة الرئيسية" style="background:rgba(255,255,255,0.2);color:#fff; font-size:2rem; margin-right:10px;">
+                <i class="fas fa-home"></i>
+            </a>
+        </div>
+    </header>
+    <main class="main-content" style="max-width:950px;">
+        <section class="section-card">
+            <h2 style="font-size:1.6rem;margin-bottom:7px;">
+                <i class="fa-solid fa-utensils" style="color:#4a90e2;margin-left:8px;"></i>
+                مطاعم وكافيهات وحلويات
+            </h2>
+            <p style="color:#555;margin-bottom:16px;font-size:1.1em;">
+                اكتشف أفضل المطاعم والكافيهات والحلويات حول الكمبوند، مع تقييمات السكان وأرقام التواصل. ساهم في تحسين الخدمة بتقييمك وتعليقك!
+            </p>
+            <div class="services-list">
+
+                <div class="service-card">
+                    <div class="service-title">مطعم ع الحطب</div>
+                    <div class="service-address">مول جولف كورنر</div>
+                    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01010554276">01010554276</a></div>
+                    <div class="old-likes-info" id="old-likes-201">
+                        👍 <span class="like-count">0</span> | 
+                        👎 <span class="dislike-count">0</span>
+                        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+                    </div>
+                    <div class="star-rating-comment" data-service-id="201">
+                        <div class="star-rating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+                        <button class="submit-rating">إرسال التقييم</button>
+                        <div class="all-comments"></div>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">مطعم حضرموت</div>
+                    <div class="service-address">مدينة الفردوس</div>
+                    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01094469828">01094469828</a></div>
+                    <div class="old-likes-info" id="old-likes-202">
+                        👍 <span class="like-count">0</span> | 
+                        👎 <span class="dislike-count">0</span>
+                        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+                    </div>
+                    <div class="star-rating-comment" data-service-id="202">
+                        <div class="star-rating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+                        <button class="submit-rating">إرسال التقييم</button>
+                        <div class="all-comments"></div>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">مطعم حضرموت</div>
+                    <div class="service-address">كمبوند الرباب</div>
+                    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01012106111">01012106111</a></div>
+                    <div class="old-likes-info" id="old-likes-203">
+                        👍 <span class="like-count">0</span> | 
+                        👎 <span class="dislike-count">0</span>
+                        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+                    </div>
+                    <div class="star-rating-comment" data-service-id="203">
+                        <div class="star-rating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+                        <button class="submit-rating">إرسال التقييم</button>
+                        <div class="all-comments"></div>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-title">كريب مراسي</div>
+                    <div class="service-address">كمبوند الرباب</div>
+                    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01010604062">01010604062</a></div>
+                    <div class="old-likes-info" id="old-likes-204">
+                        👍 <span class="like-count">0</span> | 
+                        👎 <span class="dislike-count">0</span>
+                        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+                    </div>
+                    <div class="star-rating-comment" data-service-id="204">
+                        <div class="star-rating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+                        <button class="submit-rating">إرسال التقييم</button>
+                        <div class="all-comments"></div>
+                    </div>
+                </div>
+                <div class="service-card">
+    <div class="service-title">بيتزا الملوك</div>
+    <div class="service-address">كمبوند باراديس</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01090802569">01090802569</a></div>
+    <div class="old-likes-info" id="old-likes-205">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="205">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">كشري البركة</div>
+    <div class="service-address">كمبوند باراديس</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01007672188">01007672188</a></div>
+    <div class="old-likes-info" id="old-likes-206">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="206">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">بندق</div>
+    <div class="service-address">مول جولف كورنر</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01124613130">01124613130</a></div>
+    <div class="old-likes-info" id="old-likes-207">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="207">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حدائق الشام</div>
+    <div class="service-address">مول بيتا</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01125266026">01125266026</a></div>
+    <div class="old-likes-info" id="old-likes-208">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="208">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مشاوينا</div>
+    <div class="service-address">مول بيتا</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01283825181">01283825181</a></div>
+    <div class="old-likes-info" id="old-likes-209">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="209">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مشويات القصر</div>
+    <div class="service-address">مول الدولية شارع المنتزة</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01033555575">01033555575</a></div>
+    <div class="old-likes-info" id="old-likes-210">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="210">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم التكية</div>
+    <div class="service-address">مول دجلة جاردنز</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01021029298">01021029298</a></div>
+    <div class="old-likes-info" id="old-likes-211">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="211">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم سلاكس SLAXX  - فرايد تشيكن و برجر</div>
+    <div class="service-address">شارع زويل - صينية البترول مول ابو طالب</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01080207255">01080207255</a>/<a href="tel:01152099879">01152099879</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="247">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+
+<div class="service-card">
+    <div class="service-title">مطعم سامي بيك للمشويات</div>
+    <div class="service-address">مول دجلة جاردنز بجوار مدرسة بدر تايجر</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01055814321">01055814321</a></div>
+    <div class="old-likes-info" id="old-likes-227">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="227">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم revive</div>
+    <div class="service-address">مول دجلة جاردنز</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:0115947442">0115947442</a></div>
+    <div class="old-likes-info" id="old-likes-212">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="212">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مشويات ابو قورة</div>
+    <div class="service-address">مول دجلة جاردنز</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01010494875">01010494875</a></div>
+    <div class="old-likes-info" id="old-likes-228">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="228">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">بيتزا بابا عبده</div>
+    <div class="service-address">مول البنفسج</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01015877578">01015877578</a></div>
+    <div class="old-likes-info" id="old-likes-213">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="213">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">سيتي كريب</div>
+    <div class="service-address">مول البنفسج</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01113695503">01113695503</a></div>
+    <div class="old-likes-info" id="old-likes-214">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="214">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+                <div class="service-card">
+                    <div class="service-title">اسماك بحري للمأكولات البحرية</div>
+                    <div class="service-address">مول الدولية شارع المنتزة</div>
+                    <div class="service-phone">
+                        <i class="fa-solid fa-phone-volume"></i>
+                        <a href="tel:01005507116">01005507116</a> /
+                        <a href="tel:01118881643">01118881643</a> /
+                        <a href="tel:01093744908">01093744908</a>
+                    </div>
+                    <div class="old-likes-info" id="old-likes-215">
+                        👍 <span class="like-count">0</span> | 
+                        👎 <span class="dislike-count">0</span>
+                        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+                    </div>
+                    <div class="star-rating-comment" data-service-id="215">
+                        <div class="star-rating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+                        <button class="submit-rating">إرسال التقييم</button>
+                        <div class="all-comments"></div>
+                    </div>
+                </div>
+    <div class="service-card">
+    <div class="service-title">مطعم اسماك هامور</div>
+    <div class="service-address">مول كمبوند المصرية</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01002613518">01002613518</a> / <a href="tel:01156873530">01156873530</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="254">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم اليمني فول وطعمية</div>
+    <div class="service-address">مول الجوهرة</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01120297039">01120297039</a></div>
+    <div class="old-likes-info" id="old-likes-216">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="216">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم المعلم فول وطعيمة</div>
+    <div class="service-address">مول قرطبة</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01050926717">01050926717</a> /
+        <a href="tel:01158712440">01158712440</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-217">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="217">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم حكاية "فول وطعيمة"</div>
+    <div class="service-address">مول دجلة جاردنز الداخلي بجوار بيتزا المهندس</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01019206377">01019206377</a> /
+        <a href="tel:01125577656">01125577656</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-232">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="232">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم جاد</div>
+    <div class="service-address">مول بيزنس بارك - الدور الارضي</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:16536">16536</a> /
+        <a href="tel:01008776543">01008776543</a> /
+        <a href="tel:01033883735">01033883735</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="241">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">نجمة الشبراوي - فول وطعمية</div>
+    <div class="service-address">مول كمبوند جرين جاردنز بعد ميدان بداية</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01034761501">01034761501</a>/<a href="tel:01107473607">01107473607</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="245">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">عم بشندي - فول وطعمية</div>
+    <div class="service-address">مساكن دهشور - مول البنفسج 1</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01063124083">01063124083</a>/<a href="tel:01066588631">01066588631</a>/<a href="tel:01102523278">01102523278</a>/<a href="tel:01105898122">01105898122</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="246">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+
+
+
+<div class="service-card">
+    <div class="service-title">مطعم كبده ومخ الحرمين</div>
+    <div class="service-address">مول راية سيتي بشارع المنتزة</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01129023583">01129023583</a> /
+        <a href="tel:01003560026">01003560026</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-218">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="218">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">كبده و سجق صواريخ دجلة</div>
+    <div class="service-address">مول دجلة شارع المنتزة</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01019898476">01019898476</a></div>
+    <div class="old-likes-info" id="old-likes-219">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="219">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">كبده و مخ الشرقاوي</div>
+    <div class="service-address">مول رويال فالي بجوار كمبوند الحي الايطالي</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01097631991">01097631991</a></div>
+    <div class="old-likes-info" id="old-likes-220">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="220">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">كبده و مخ الشرقاوي</div>
+    <div class="service-address">مول الصناعات الصغيرة بجوار كافية ديلوكس شارع المنتزة</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01113483189">01113483189</a> /
+        <a href="tel:01113471898">01113471898</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-226">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="226">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم كابوريا</div>
+    <div class="service-address">مول رويال فالي بجوار كمبوند الحي الايطالي</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01093167795">01093167795</a></div>
+    <div class="old-likes-info" id="old-likes-221">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="221">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم العراب للمأكولات السورية</div>
+    <div class="service-address">مول الفتح مشروع 266 عمارة</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01033336937">01033336937</a> /
+        <a href="tel:01033336938">01033336938</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-222">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="222">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم الكبابجي-مشويات وبروست</div>
+    <div class="service-address">مول الجوهرة</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01111707334">01111707334</a> /
+        <a href="tel:01000365016">01000365016</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="236">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">كبابجي مصر</div>
+    <div class="service-address">مول كمبوند جرين جاردنز بعد ميدان بداية</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01068340102">01068340102</a>/<a href="tel:01107329623">01107329623</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="244">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+
+
+
+<div class="service-card">
+    <div class="service-title">مطعم ومشويات مزاجنجي -فراخ ومشويات ولحمة راس</div>
+    <div class="service-address">مول الدكتور بسور نادي البنفسج لضباط القوات المسلحة مساكن دهشور</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01034110441">01034110441</a> /
+        <a href="tel:01034101101">01034101101</a> /
+        <a href="tel:01142783049">01142783049</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="237">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">بيتزا و فطير سفيان</div>
+    <div class="service-address">جرينز مول امام مساكن دهشور بعد ميدان بداية</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01159596595">01159596595</a> /
+        <a href="tel:01275306596">01275306596</a> /
+        <a href="tel:01065250062">01065250062</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="238">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المحل..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم وكافية The 9</div>
+    <div class="service-address">مول 4 دجلة جاردنز بجوار مدرسة بدر تايجر</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01111770570">01111770570</a> /
+        <a href="tel:01034016350">01034016350</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="239">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">علي كيفك - بيتزا وفطير وكريب و وافل</div>
+    <div class="service-address">سنتر 10 مساكن دهشور</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01031141913">01031141913</a> /
+        <a href="tel:01107353061">01107353061</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="240">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title"> جين كريب - كريب و بوكيت بيتزا</div>
+    <div class="service-address">مول جولف كورنر</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:15658">15658</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="242">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">عم سمير بتاع الفطير</div>
+    <div class="service-address">مول بيزنس بارك</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:17205">17205</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="243">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+
+<div class="service-card">
+    <div class="service-title">مطعم دار رباب للشاورما والمندي</div>
+    <div class="service-address">شارع حي المنتزة مول الصناعات الدور الثالث</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01019009618">01019009618</a></div>
+    <div class="old-likes-info" id="old-likes-234">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="234">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">مطعم جمر -شاورما ومشويات</div>
+    <div class="service-address">مول بيزنس بارك الدور الارضي</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01035155255">01035155255</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="250">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">ع الشواية</div>
+    <div class="service-address">شارع المشروع مول صن جيت امام مساكن دهشور وبجوار مدرسة كابيتال</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01110060025">01110060025</a> /
+        <a href="tel:01222235190">01222235190</a> / 
+        <a href="tel:01055119300">01055119300</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="252">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div><div class="service-card">
+    <div class="service-title">بيتزا ومشويات المهندس</div>
+    <div class="service-address">مول دجلة جاردنز عمارات 1185 دهشور - سنتر ب جيش </div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01141067607">01141067607</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="253">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+
+                <div class="service-card">
+                    <div class="service-title">مطعم الشبراوي الدمشقي</div>
+                    <div class="service-address">طريق الواحات بجوار بنزينة وطنية وامام فندق سويس ان</div>
+                    <div class="service-phone">
+                        <i class="fa-solid fa-phone-volume"></i>
+                        <a href="tel:01096626262">01096626262</a> /
+                        <a href="tel:01555843584">01555843584</a> /
+                        <a href="tel:01557107688">01557107688</a>
+                        <span class="label">يوجد توصيل لكنز</span>
+                        <span class="label">الاسعار وللطلب اونلاين:</span>
+                        <a href="https://elshabrawyandhana.bonbell.online" target="_blank">اضغط هنا</a>
+                    </div>
+                    <div class="old-likes-info" id="old-likes-235">
+                        👍 <span class="like-count">0</span> | 
+                        👎 <span class="dislike-count">0</span>
+                        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+                    </div>
+                    <div class="star-rating-comment" data-service-id="235">
+                        <div class="star-rating">
+                            <span class="star" data-value="1">★</span>
+                            <span class="star" data-value="2">★</span>
+                            <span class="star" data-value="3">★</span>
+                            <span class="star" data-value="4">★</span>
+                            <span class="star" data-value="5">★</span>
+                        </div>
+                        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+                        <button class="submit-rating">إرسال التقييم</button>
+                        <div class="all-comments"></div>
+                    </div>
+                </div>
+                <div class="service-card">
+    <div class="service-title">مطعم بيدا (بيتزا وكريب)</div>
+    <div class="service-address">كواترو مول حي المنتزة امام كمبوند دجله جاردنز</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01090698352">01090698352</a></div>
+    <div class="old-likes-info" id="old-likes-230">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="230">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حلويات الوردة الشامية</div>
+    <div class="service-address">مول رويال فالي بجوار كمبوند الحي الايطالي</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01112740483">01112740483</a> /
+        <a href="tel:01033336938">01033336938</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-223">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="223">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المحل..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حلويات دولشي</div>
+    <div class="service-address">مول جولف كورنر</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01033065332">01033065332</a></div>
+    <div class="old-likes-info" id="old-likes-224">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="224">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المحل..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حلواني اكسبشن</div>
+    <div class="service-address">صينية البترول أول طريق الحي الايطالي بجوار بنزينة موبيل</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01011198306">01011198306</a> /
+        <a href="tel:16687">16687</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-225">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="225">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المحل..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حلويات الدمشقي الاصيل</div>
+    <div class="service-address">مول جولف كورنر</div>
+    <div class="service-phone"><i class="fa-solid fa-phone-volume"></i> <a href="tel:01040334393">01040334393</a></div>
+    <div class="old-likes-info" id="old-likes-229">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="229">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المحل..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حلواني لوكسير</div>
+    <div class="service-address">مول كمبوند دخلة الخارجي بجوار مدرسة بدر تايجر</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:16938">16938</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="248">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حلواني وزير الحلو</div>
+    <div class="service-address">مول صن جيت امام عمارات مساكن دهشور</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:19062">19062</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="249">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+<div class="service-card">
+    <div class="service-title">حلواني العبد</div>
+    <div class="service-address">شارع زويل بالقرب من صينية البترول Woax Strip Mall</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:17111">17111</a>
+    </div>
+    <div class="star-rating-comment" data-service-id="251">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المطعم..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+
+
+<div class="service-card">
+    <div class="service-title">حلواني المدينة المنورة</div>
+    <div class="service-address">طريق الواحات مدخل الفردوس جيش امام هيلتون دريم مول</div>
+    <div class="service-phone">
+        <i class="fa-solid fa-phone-volume"></i>
+        <a href="tel:01002171596">01002171596</a> /
+        <a href="tel:01002311977">01002311977</a>
+    </div>
+    <div class="old-likes-info" id="old-likes-231">
+        👍 <span class="like-count">0</span> | 
+        👎 <span class="dislike-count">0</span>
+        <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+    </div>
+    <div class="star-rating-comment" data-service-id="231">
+        <div class="star-rating">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+        <textarea class="comment-text" placeholder="اكتب تعليقك عن المحل..."></textarea>
+        <button class="submit-rating">إرسال التقييم</button>
+        <div class="all-comments"></div>
+    </div>
+</div>
+</div>
+</section>
+</main>
+    <footer dir="rtl">
+        <p>Copyright © 2024 SESMA Technology All Rights Reserved</p>
+    </footer>
+        <script>
+    // شارة عدد الكروت
+    document.addEventListener('DOMContentLoaded', function(){
+        const h2 = document.querySelector('.section-card h2');
+        const list = document.querySelector('.services-list');
+        if(h2 && list){
+            const count = list.querySelectorAll('.service-card').length;
+            const badge = document.createElement('span');
+            badge.className = 'count-badge';
+            badge.textContent = 'العدد الحالي: ' + count;
+            h2.appendChild(badge);
+        }
+    });
+    </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceParam = urlParams.get('service');
+  
+  if (serviceParam) {
+    // ابحث عن الكارت الذي يحتوي على اسم الخدمة
+    const cards = document.querySelectorAll('.service-card');
+    let targetCard = null;
+    
+    for (const card of cards) {
+      const cardText = card.textContent.toLowerCase();
+      if (cardText.includes(serviceParam.toLowerCase())) {
+        targetCard = card;
+        break;
+      }
+    }
+    
+    if (targetCard) {
+      // انتقل إلى الكارت مع تأثير بصري
+      setTimeout(() => {
+        targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        targetCard.style.transition = 'all 0.5s ease';
+        targetCard.style.backgroundColor = '#fff3cd';
+        targetCard.style.transform = 'scale(1.02)';
+        targetCard.style.boxShadow = '0 8px 24px rgba(255, 193, 7, 0.5)';
+        targetCard.style.border = '3px solid #ffc107';
+        
+        setTimeout(() => {
+          targetCard.style.backgroundColor = '';
+          targetCard.style.transform = '';
+          targetCard.style.boxShadow = '';
+          targetCard.style.border = '';
+        }, 3000);
+      }, 500); // تأخير قليل لضمان تحميل الصفحة
+    }
+  }
+});
+</script>
+    <script src="../premium-motion.js?v=2" defer></script>
+</body>
+</html>
+
+

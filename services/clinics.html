@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>عيادات ومستشفيات | بوابة الكنزاوية</title>
+  <meta name="description" content="دليل العيادات والمستشفيات والخدمات الطبية حول كمبوند كنز مع تقييمات وتعليقات السكان." />
+  <link href="../styles.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+  <!-- Google Analytics (keep as-is) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-FX6BSCQ8KQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-FX6BSCQ8KQ', { 'anonymize_ip': true });
+  </script>
+    <script src="data/clinics.js"></script>
+    <script src="service_data_renderer.js"></script>
+    <script src="../app.js" type="module"></script>
+  <style>
+    .header {
+      position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: #4a90e2;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 16px 0 8px 0;
+    }
+    .logo h1 {
+      margin: 0;
+      font-size: 2.1rem;
+      color: #f9fdff;
+      font-weight: bold;
+      background: none;
+    }
+    .logo p {
+      margin: 0;
+      color: #f9fdff;
+      font-size: 1.1rem;
+      background: none;
+    }
+    .main-content {
+      max-width: 950px;
+      margin: 0 auto;
+      padding-top: 120px;
+      padding-bottom: 40px;
+    }
+    footer {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      width: 100%;
+      z-index: 999;
+      background-color: #dee8f0;
+      color: #007bff;
+      font-size: 0.7em;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 0;
+      line-height: 1;
+      text-align: center;
+      box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+    }
+    .section-card {
+      background: linear-gradient(120deg,#e6f7ff 70%,#f0f2f5 100%);
+      margin-top: 25px;
+      box-shadow: 0 8px 32px rgba(74,144,226,0.11);
+    }
+    .services-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
+      gap: 22px;
+      margin-top: 30px;
+    }
+    .service-card {
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+      padding: 18px 22px 14px 22px;
+      transition: box-shadow 0.2s;
+      position: relative;
+      overflow:hidden;
+    }
+    .service-card:hover { box-shadow: 0 8px 32px rgba(74,144,226,0.16); }
+    .service-title {
+      font-size: 1.15em;
+      font-weight: bold;
+      color: #2567a1;
+      margin-bottom: 3px;
+    }
+    .service-address {
+      color: #888;
+      font-size: 0.97em;
+      margin-bottom: 3px;
+    }
+    .service-phone {
+      font-size: 1.03em;
+      color: #007bff;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 9px;
+    }
+    .average-rating {
+      margin: 10px 0 8px 0;
+      font-weight: bold;
+      color: #ff9800;
+      font-size: 1.07em;
+    }
+    .old-likes-info {
+      color: #777;
+      font-size: 0.92em;
+      margin-bottom: 5px;
+    }
+    .label {
+      background: #4a90e2;
+      color: #fff;
+      border-radius: 4px;
+      font-size: 0.9em;
+      padding: 2px 7px;
+      margin-left: 5px;
+    }
+    /* شارة عدد الكروت */
+    .count-badge{
+      background:linear-gradient(145deg,#ff9800,#ffb74d);
+      color:#fff;
+      font-weight:700;
+      font-size:0.78rem;
+      padding:6px 12px 7px;
+      border-radius:30px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-right:10px;
+      box-shadow:0 3px 10px rgba(0,0,0,.18);
+      position:relative;
+    }
+    .count-badge:before{
+      content:"#";
+      font-size:.75rem;
+      opacity:.85;
+    }
+    @media (max-width:600px){
+      .count-badge{
+        margin-top:8px;
+        font-size:0.72rem;
+        padding:5px 10px 6px;
+      }
+    }
+
+    @media (max-width:600px) {
+      .services-list { grid-template-columns: 1fr; }
+      .section-card { padding: 18px 6px 8px 6px; }
+      .header{ padding:10px 0 6px; }
+      .logo h1{ font-size:1.55rem; }
+      .logo p{ font-size:0.9rem; }
+    }
+    /* ---- إصلاح خروج محتوى الهواتف والبادجات (حل A) ---- */
+    .service-card { overflow:hidden; }
+    .service-phone {
+      display:flex;
+      flex-wrap:wrap;
+      align-items:center;
+      gap:6px 8px;
+      line-height:1.4;
+    }
+    .service-phone a {
+      color:#007bff;
+      text-decoration:none;
+      font-weight:600;
+      direction:ltr;
+      unicode-bidi:plaintext;
+      white-space:nowrap;
+      font-size:0.95em;
+    }
+    .service-phone a:hover { text-decoration:underline; }
+    .service-phone .label {
+      background:#4a90e2;
+      color:#fff;
+      border-radius:6px;
+      padding:3px 8px 4px;
+      font-size:0.75rem;
+      line-height:1.2;
+      display:inline-flex;
+      align-items:center;
+      white-space:nowrap;
+      margin:2px 0;
+      order:2;
+    }
+    .service-phone .label:first-of-type { flex-basis:100%; margin-top:4px; }
+    .service-phone .label:first-of-type + .label { flex-basis:100%; }
+    .service-phone a[target="_blank"] {
+      background:#0d7d2a;
+      color:#fff;
+      padding:4px 10px;
+      border-radius:6px;
+      font-size:0.72rem;
+      font-weight:600;
+      white-space:nowrap;
+      order:3;
+      text-decoration:none;
+    }
+    .service-phone a[target="_blank"]:hover { background:#0a5c20; }
+
+    /* أزرار الفلترة (من صفحة other_services بنفس التنسيق) */
+    .services-toolbar {
+      margin: 10px 0 6px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-btn{
+      --btn-bg:#031a8e;
+      position:relative;
+      overflow:hidden;
+      background:var(--btn-bg);
+      border:1px solid #cfdbe5;
+      padding:7px 13px 8px;
+      font-size:.68rem;
+      letter-spacing:.3px;
+      border-radius:5px;
+      cursor:pointer;
+      color:#eceff1;
+      font-weight:600;
+      transition:background .18s, color .18s, border-color .18s, box-shadow .25s;
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      line-height:1.1;
+      white-space:nowrap;
+      justify-content:center;
+      isolation:isolate;
+    }
+    .filter-btn i{font-size:.78rem;opacity:.85;}
+    .filter-btn:hover{background:#101010;}
+    .filter-btn.active{
+      background:#e85a02;
+      color:#fff;
+      border-color:#4a90e2;
+      box-shadow:0 4px 14px -2px rgba(74,144,226,.45);
+    }
+    .filter-btn.reflect::before,
+    .filter-btn.reflect::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+    }
+    .filter-btn.reflect::after{
+      --alpha:var(--reflect-intensity,0.15);
+      background:
+        linear-gradient(
+          var(--reflect-angle,120deg),
+          rgba(255,255,255,0) 0%,
+          rgba(255,255,255,0) 40%,
+          rgba(255,255,255,var(--alpha)) 50%,
+          rgba(255,255,255,0) 60%,
+          rgba(255,255,255,0) 100%);
+      width:var(--reflect-width,95%);
+      top:0; bottom:0;
+      right:-90%;
+      mix-blend-mode:screen;
+      animation:reflect-sweep var(--reflect-speed,2.8s) linear infinite;
+      transform:skewX(-18deg);
+      opacity:.9;
+    }
+    .filter-btn.reflect.active::after{--alpha:var(--reflect-active-boost,0.28);animation-duration:calc(var(--reflect-speed,2.8s)*0.75);}
+    .filter-btn.reflect:hover::after{animation-duration:calc(var(--reflect-speed,2.8s)*0.6);}
+    @keyframes reflect-sweep{
+      0%   { right:-95%; }
+      55%  { right:105%; }
+      100% { right:105%; }
+    }
+    .filter-btn.reflect::before{
+      background:radial-gradient(circle at 25% 50%,rgba(255,255,255,.55),rgba(255,255,255,0) 60%);
+      opacity:.35;
+      filter:blur(6px);
+      animation:reflect-glow calc(var(--reflect-speed,2.8s)*2.2) ease-in-out infinite;
+    }
+    .filter-btn.reflect.active::before{opacity:.55;animation-duration:calc(var(--reflect-speed,2.8s)*1.8);}
+    @keyframes reflect-glow{
+      0%,100%{background-position:0% 50%;opacity:.28;}
+      50%{background-position:70% 50%;opacity:.5;}
+    }
+    .filter-btn.reflect.no-reflect::after,
+    .filter-btn.reflect.no-reflect::before{display:none;}
+    @media (max-width:600px) {
+      #clinic-filters {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 7px;
+        width: 100%;
+      }
+      #clinic-filters .filter-btn {
+        width: 100%;
+        margin: 0;
+        font-size: 0.7em;
+        padding: 6px 0;
+      }
+    }
+  </style>
+    <link rel="stylesheet" href="../premium-ui.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="../button-contrast.css">
+</head>
+<body data-page="clinics">
+<header class="header">
+  <div class="logo">
+    <h1>بوابة الكنزاوية</h1>
+    <p>دليل العيادات والمستشفيات</p>
+  </div>
+  <div style="width:100%;display:flex;justify-content:flex-start;align-items:center;padding-right:35px;margin-top:2px;">
+    <a href="../index.html" class="icon-btn" data-tooltip="العودة للصفحة الرئيسية" style="background:rgba(255,255,255,0.2);color:#fff;font-size:2rem;margin-right:10px;">
+      <i class="fas fa-home"></i>
+    </a>
+  </div>
+</header>
+
+<main class="main-content">
+  <section class="section-card">
+    <h2 style="font-size:1.6rem;margin-bottom:7px;">
+      <i class="fa-solid fa-stethoscope" style="color:#4a90e2;margin-left:8px;"></i>
+      عيادات ومستشفيات
+    </h2>
+    <p style="color:#555;margin:0 0 18px;font-size:1.02em;line-height:1.55;text-align:center;">
+      دليل شامل لأهم العيادات والمستشفيات والتخصصات الطبية حول الكمبوند. اطلع على المعلومات وقم بإضافة تقييمك وتعليقك لدعم تحسين الخدمة.
+    </p>
+
+    <!-- شريط الفلاتر -->
+    <div class="services-toolbar">
+      <div class="filters" id="clinic-filters" aria-label="فلاتر التصنيف">
+        <button class="filter-btn reflect active" data-filter="all"><i class="fa-solid fa-layer-group"></i>الكل</button>
+        <button class="filter-btn reflect" data-filter="obgyn"><i class="fa-solid fa-person-dress"></i>نساء وتوليد</button>
+        <button class="filter-btn reflect" data-filter="pediatrics"><i class="fa-solid fa-baby"></i>أطفال</button>
+        <button class="filter-btn reflect" data-filter="eye"><i class="fa-solid fa-eye"></i>عيون</button>
+        <button class="filter-btn reflect" data-filter="dental"><i class="fa-solid fa-tooth"></i>أسنان</button>
+        <button class="filter-btn reflect" data-filter="internal"><i class="fa-solid fa-heart-pulse"></i>باطنة</button>
+        <button class="filter-btn reflect" data-filter="surgery"><i class="fa-solid fa-scissors"></i>جراحة</button>
+        <button class="filter-btn reflect" data-filter="hospital"><i class="fa-solid fa-hospital"></i>مستشفيات</button>
+        <button class="filter-btn reflect" data-filter="lab"><i class="fa-solid fa-vials"></i>معامل/أشعة</button>
+        <button class="filter-btn reflect" data-filter="multi"><i class="fa-solid fa-briefcase-medical"></i>مراكز طبية</button>
+      </div>
+    </div>
+
+    <div class="services-list">
+
+      <!-- 1 د. ابتسام عبد العظيم -->
+      <div class="service-card" data-type="obgyn">
+        <div class="service-title">د. ابتسام عبد العظيم</div>
+        <div class="service-address">نساء وتوليد – مول كمبوند باراديس شارع المنتزة</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01022227118">01022227118</a></div>
+        <div class="old-likes-info" id="old-likes-1">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="1">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 2 د. عزة بيومي مشعل -->
+      <div class="service-card" data-type="obgyn">
+        <div class="service-title">د. عزة بيومي مشعل</div>
+        <div class="service-address">استشاري نساء وتوليد – مول رويال فالي بعد كمبوند الحي الايطالي – الدور الثاني</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01013443476">01013443476</a></div>
+        <div class="old-likes-info" id="old-likes-25">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="25">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 3 د. آيه ميسرة علي -->
+      <div class="service-card" data-type="obgyn">
+        <div class="service-title">د. آيه ميسرة علي</div>
+        <div class="service-address">طبيبة نساء وتوليد – عمارة 5 سنتر 3 – مساكن دهشور</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01115006169">01115006169</a></div>
+        <div class="old-likes-info" id="old-likes-29">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="29">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 4 د. محمد احمد كمال -->
+      <div class="service-card" data-type="obgyn">
+        <div class="service-title">د. محمد احمد كمال</div>
+        <div class="service-address">استشاري مناظير وأمراض نساء وتوليد – مول رويال فالي بعد كمبوند الحي الايطالي – الدور الثاني</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01275144818">01275144818</a> /
+          <a href="tel:01013443476">01013443476</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-26">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="26">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 5 د. احمد هشام منير -->
+      <div class="service-card" data-type="eye">
+        <div class="service-title">د. احمد هشام منير</div>
+        <div class="service-address">عيون ورمد – مول رويال فالي بعد كمبوند الحي الايطالي</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01061657077">01061657077</a></div>
+        <div class="old-likes-info" id="old-likes-2">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="2">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 6 مستشفيات دار العيون -->
+      <div class="service-card" data-type="eye hospital">
+        <div class="service-title">مستشفيات دار العيون</div>
+        <div class="service-address">مول بيزنس بارك – الدور الثاني</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:19978">19978</a></div>
+        <div class="old-likes-info" id="old-likes-30">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="30">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 7 د. اسامة طعيمة -->
+      <div class="service-card" data-type="dental">
+        <div class="service-title">د. اسامة طعيمة</div>
+        <div class="service-address">استشاري أسنان – الدور الثاني 415 شارع الجيش بوابة مينا حدائق الأهرام</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01019919800">01019919800</a> /
+          <a href="tel:01155111692">01155111692</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-3">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="3">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 8 د. عمرو عبد الحافظ -->
+      <div class="service-card" data-type="internal">
+        <div class="service-title">د. عمرو عبد الحافظ</div>
+        <div class="service-address">باطني – ميدان بداية</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01116561520">01116561520</a></div>
+        <div class="old-likes-info" id="old-likes-4">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="4">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 9 د. سمير الضوي -->
+      <div class="service-card" data-type="internal">
+        <div class="service-title">د. سمير الضوي</div>
+        <div class="service-address">باطني – مول رويال فالي بجوار كمبوند الحي الايطالي</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01115766571">01115766571</a></div>
+        <div class="old-likes-info" id="old-likes-5">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="5">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 10 د. عمر فكري البسيوني -->
+      <div class="service-card" data-type="surgery">
+        <div class="service-title">د. عمر فكري البسيوني</div>
+        <div class="service-address">مدرس جراحة المخ والأعصاب – مول كمبوند اللوتس بجوار خير زمان – الدور الثاني</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01020817001">01020817001</a></div>
+        <div class="star-rating-comment" data-service-id="35">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 11 د. علي داوود -->
+      <div class="service-card" data-type="pediatrics">
+        <div class="service-title">د. علي داوود</div>
+        <div class="service-address">استشاري أطفال – مول رويال فالي بجوار كمبوند الحي الايطالي</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01559818109">01559818109</a></div>
+        <div class="old-likes-info" id="old-likes-6">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="6">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 12 د. مجدي محمود غلاب -->
+      <div class="service-card" data-type="pediatrics">
+        <div class="service-title">د. مجدي محمود غلاب</div>
+        <div class="service-address">استشاري أطفال – المول الطبي الدور الثاني كمبوند باراديس</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01063084068">01063084068</a></div>
+        <div class="old-likes-info" id="old-likes-7">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="7">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 13 د. شيماء مشعل -->
+      <div class="service-card" data-type="pediatrics">
+        <div class="service-title">د. شيماء مشعل</div>
+        <div class="service-address">استشاري أطفال وحديثي الولادة – مول بيزنس بارك كمبوند بيتا</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01090559435">01090559435</a></div>
+        <div class="old-likes-info" id="old-likes-32">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="32">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 14 د. سماح سيد سالم -->
+      <div class="service-card" data-type="pediatrics">
+        <div class="service-title">د. سماح سيد سالم</div>
+        <div class="service-address">أخصائي أطفال – كايا مول الدور الثاني عيادة 6 (تحت التشغيل) كمبوند كنز</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01156146177">01156146177</a></div>
+        <div class="old-likes-info" id="old-likes-8">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظا�� الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="8">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 15 د. هشام جميل -->
+      <div class="service-card" data-type="surgery">
+        <div class="service-title">د. هشام جميل</div>
+        <div class="service-address">استشاري جراحة عامة – مول الدولية فوق مركز القدس للإطارات – شارع المنتزة</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:01050117225">01050117225</a></div>
+        <div class="old-likes-info" id="old-likes-24">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="24">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 16 مستشفى الواحة -->
+      <div class="service-card" data-type="hospital">
+        <div class="service-title">مستشفى الواحة</div>
+        <div class="service-address">29ص بوابة حورس حدائق الأهرام</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:0233797091">0233797091</a> /
+          <a href="tel:0233797092">0233797092</a> /
+          <a href="tel:01062436212">01062436212</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-9">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="9">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 17 مستشفى 6 أكتوبر العسكري -->
+      <div class="service-card" data-type="hospital">
+        <div class="service-title">مستشفى 6 أكتوبر العسكري</div>
+        <div class="service-address">مدينة الفردوس</div>
+        <div class="service-phone"><i class="fa-solid fa-phone-volume"></i><a href="tel:0238878164">0238878164</a></div>
+        <div class="old-likes-info" id="old-likes-10">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="10">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 18 مستشفى دريم لاند -->
+      <div class="service-card" data-type="hospital">
+        <div class="service-title">مستشفى دريم لاند</div>
+        <div class="service-address">طريق الواحات</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:0238580437">0238580437</a> /
+          <a href="tel:01093777913">01093777913</a> /
+          <a href="tel:01022251463">01022251463</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-11">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="11">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادات يوتوبيا التخصصية -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">عيادات يوتوبيا التخصصية</div>
+        <div class="service-address">كمبوند يوتوبيا - المول الداخلي - الدور الثاني</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01229383356">01229383356</a> /
+          <a href="tel:01028791195">01028791195</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-12">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="12">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- مركز وعيادات كلينيكا الطبي (راية سيتي) -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">مركز وعيادات كلينيكا الطبي</div>
+        <div class="service-address">أمام صيدلية المصري - شارع المنتزة - كمبوند راية سيتي</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01050117225">01050117225</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-13">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="13">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المركز..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- مركز وعيادات كلينيكا الطبي (فرع مساكن دهشور) -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">مركز وعيادات كلينيكا الطبي - فرع مساكن دهشور</div>
+        <div class="service-address">عمارة 104 بجوار المكتب الفني - مساكن دهشور</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01011295506">01011295506</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-14">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="14">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المركز..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادات وايز -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">عيادات وايز</div>
+        <div class="service-address">مول المنتزة - الدور الثاني - كمبوند حي المنتزة</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01019614063">01019614063</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-15">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="15">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادات وايز جولف -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">عيادات وايز جولف</div>
+        <div class="service-address">مول جولف كورنر - الدور الثاني - كمبوند جولف ريزيدنس</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01090337414">01090337414</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-16">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="16">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادات برفكت (مغلقة مؤقتاً) -->
+      <div class="service-card" id="perfect-clinic" data-type="multi">
+        <div class="service-title">عيادات برفكت (مغلقة مؤقتاً)</div>
+        <div class="service-address">جميع التخصصات - مول البنفسج 1 - مساكن دهشور</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01101802480">01101802480</a>
+          <a href="tel:01005396316">01005396316</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-23">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="23">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادات بيبي هب للأطفال -->
+      <div class="service-card" data-type="pediatrics">
+        <div class="service-title">عيادات بيبي هب للأطفال</div>
+        <div class="service-address">استوريا مول - الدور الثاني</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01000554146">01000554146</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-27">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="27">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- مركز الهبة الطبي -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">مركز الهبة الطبي</div>
+        <div class="service-address">جميع التخصصات الطبية - خدمة منزلية وتمريض - مول الصناعات الصغيرة - شارع المنتزة</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01001894996">01001894996</a>
+          <a href="tel:01157753147">01157753147</a>
+          <a href="tel:01021156259">01021156259</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-28">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="28">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المركز..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادات الرشاد التخصصية -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">عيادات الرشاد التخصصية</div>
+        <div class="service-address">مساكن دهشور - سنتر 9 - الدور الأول - أمام أسواق الصياد</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01050714930">01050714930</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-31">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="31">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادات ميديكال سبوت -->
+      <div class="service-card" data-type="multi">
+        <div class="service-title">عيادات ميديكال سبوت Medical Spot</div>
+        <div class="service-address">مول بيزنس بارك - فوق صيدلية العزبي - كمبوند بيتا جرينز</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01031641659">01031641659</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-34">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="34">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- مركز دياموند سمايل للاسنان -->
+      <div class="service-card" data-type="dental">
+        <div class="service-title">مركز دياموند سمايل للاسنان</div>
+        <div class="service-address">المول الداخلي - كمبوند يوتوبيا</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01001792453">01001792453</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-17">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="17">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المركز..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادة دجلة لطب الاسنان -->
+      <div class="service-card" data-type="dental">
+        <div class="service-title">عيادة دجلة لطب الاسنان</div>
+        <div class="service-address">مول دجلة الخلفي - الدور الثاني - فوق محل قطونيل</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01007568961">01007568961</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-22">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="22">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- عيادة دينتال بلازا للاسنان -->
+      <div class="service-card" data-type="dental">
+        <div class="service-title">عيادة دينتال بلازا للاسنان</div>
+        <div class="service-address">د. مروان عبد السلام & د. محي الدين أبوالعزايم – مول بيزنس بارك كمبوند بيتا</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01011228899">01011228899</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-33">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="33">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن العيادة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- معمل البرج -->
+      <div class="service-card" data-type="lab">
+        <div class="service-title">معمل البرج</div>
+        <div class="service-address">مول جولف كورنر</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01140966679">01140966679</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-18">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="18">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المعمل..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- معمل ألفا -->
+      <div class="service-card" data-type="lab">
+        <div class="service-title">معمل ألفا</div>
+        <div class="service-address">مول جولف كورنر</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01284092049">01284092049</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-19">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="19">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المعمل..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- معمل المختبر -->
+      <div class="service-card" data-type="lab">
+        <div class="service-title">معمل المختبر</div>
+        <div class="service-address">مول رويال فالي - بجوار كمبوند الحي الايطالي</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01050680499">01050680499</a>
+          <a href="tel:01003519014">01003519014</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-20">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="20">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المعمل..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- مركز الطاهرة للأشعة -->
+      <div class="service-card" data-type="lab">
+        <div class="service-title">مركز الطاهرة للأشعة</div>
+        <div class="service-address">البوابة الثالثة حدائق الأهرام</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:0233807828">0233807828</a>
+        </div>
+        <div class="old-likes-info" id="old-likes-21">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="21">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المركز..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- مركز كيان سكان للأشعة والتحاليل -->
+      <div class="service-card" data-type="lab">
+        <div class="service-title">مركز كيان سكان للأشعة والتحاليل</div>
+        <div class="service-address">مول الدولية - شارع المنتزة - الدور الثاني</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:01103888383">01103888383</a>
+          <a href="tel:01017199700">01017199700</a>
+        </div>
+        <div class="star-rating-comment" data-service-id="36">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المركز..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button>
+          <div class="all-comments"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer dir="rtl">
+  <p>Copyright © 2024 SESMA Technology All Rights Reserved</p>
+</footer>
+<script>
+  // شارة عدد الكروت + تحديث عند الفلترة
+  function updateClinicCount() {
+    const list = document.querySelector('.services-list');
+    const h2 = document.querySelector('.section-card h2');
+    if (!list || !h2) return;
+    const visible = list.querySelectorAll('.service-card:not([hidden])').length;
+    let badge = h2.querySelector('.count-badge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.className = 'count-badge';
+      h2.appendChild(badge);
+    }
+    badge.textContent = 'العدد الحالي: ' + visible;
+  }
+
+  // فلترة الكروت حسب data-type
+  function initClinicFilters() {
+    const buttons = document.querySelectorAll('#clinic-filters .filter-btn');
+    const cards = document.querySelectorAll('.services-list .service-card');
+    if (!buttons.length || !cards.length) return;
+
+    const applyFilter = (filter) => {
+      cards.forEach(card => {
+        const types = (card.getAttribute('data-type') || '').split(/\s+/);
+        const show = filter === 'all' || types.includes(filter);
+        card.hidden = !show;
+      });
+      updateClinicCount();
+    };
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        applyFilter(btn.dataset.filter || 'all');
+      });
+    });
+    applyFilter('all');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initClinicFilters();
+    updateClinicCount();
+  });
+</script>
+    <script src="../premium-motion.js?v=2" defer></script>
+</body>
+</html>

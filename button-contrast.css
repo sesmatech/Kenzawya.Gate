@@ -1,0 +1,124 @@
+/* Shared button contrast layer — presentation only. */
+button,
+button *,
+a[role="button"],
+a[role="button"] * {
+  -webkit-text-fill-color: currentColor;
+}
+
+/* Homepage news and instruction tabs */
+.news-tab,
+.news-tab * {
+  color: #214563 !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.news-tab:hover,
+.news-tab:focus-visible {
+  color: #123b60 !important;
+  background: #d6e7f2 !important;
+}
+.news-tab.active,
+.news-tab.active * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: 0 1px 4px rgba(0, 20, 45, .35);
+}
+.news-tab.active {
+  background: linear-gradient(135deg, #103d63, #238ba2) !important;
+}
+
+.news-filters button,
+#clear-news-filter {
+  color: #1f3347 !important;
+  -webkit-text-fill-color: #1f3347 !important;
+}
+.news-filters button:hover,
+.news-filters button:focus-visible,
+#clear-news-filter:hover,
+#clear-news-filter:focus-visible {
+  color: #123b60 !important;
+  -webkit-text-fill-color: #123b60 !important;
+}
+
+/* Main service/category buttons */
+.buttons li button,
+.buttons li button * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  text-shadow: 0 1px 4px rgba(0, 20, 45, .35);
+}
+
+/* Shared selected/filter states */
+.filter-btn.active,
+.filter-btn.active *,
+.accordion-header.active,
+.accordion-header.active *,
+.news-tab.active,
+.news-tab.active * {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+.filter-btn.active,
+.filter-btn.active * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Action/contact buttons */
+.btn,
+.btn *,
+.submit-rating,
+.submit-rating *,
+.show-more-btn,
+.show-more-btn *,
+.contact-btn,
+.contact-btn *,
+.apt-images-btn,
+.apt-images-btn *,
+.af-submit-btn,
+.af-submit-btn *,
+.send-actions button,
+.send-actions a {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.submit-rating,
+.submit-rating *,
+.show-more-btn,
+.show-more-btn *,
+.contact-btn,
+.contact-btn *,
+.apt-images-btn,
+.apt-images-btn *,
+.af-submit-btn,
+.af-submit-btn * {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+
+/* Header icon controls remain readable in normal and hover states. */
+.icon-btn,
+.icon-btn i,
+.header-buttons a,
+.header-buttons a i {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+button:disabled,
+button:disabled * {
+  opacity: .62 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button,
+  a[role="button"] {
+    transition: none !important;
+  }
+}

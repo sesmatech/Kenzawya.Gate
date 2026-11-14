@@ -1,0 +1,247 @@
+/* Kenzawya Gate — premium real-estate hero header, presentation only. */
+.premium-header-shell {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  isolation: isolate;
+  background: #fff;
+  padding-top: 1px;
+}
+.premium-hero-header {
+  position: relative !important;
+  top: auto !important;
+  z-index: 0 !important;
+  isolation: isolate;
+  min-height: 214px;
+  padding: 18px clamp(16px, 4vw, 56px) 16px !important;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: min(calc(100% - 18px), 1880px);
+  margin: 8px auto 0;
+  border: 4px solid rgba(229, 210, 163, .82) !important;
+  border-bottom-width: 3px !important;
+  border-radius: 50% 50% 18px 18px / 56px 56px 18px 18px;
+  /* Keep the complete 4:3 artwork visible at every header aspect ratio.
+     The surrounding colour is intentional: it prevents cropping on wide
+     desktops while keeping the header visually cohesive on narrow screens. */
+  /* This shorthand deliberately overrides the global `.header` cover rule. */
+  background:
+    linear-gradient(115deg, rgba(3, 18, 39, .20), rgba(7, 45, 71, .10) 48%, rgba(8, 25, 49, .20)),
+    #061827 url('KC31.jpg') center / contain no-repeat !important;
+  box-shadow: 0 22px 55px rgba(3, 25, 50, .30), inset 0 0 0 1px rgba(255,255,255,.28) !important;
+}
+.premium-hero-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(45, 197, 214, .20), transparent 36%, rgba(100, 133, 255, .18)),
+    radial-gradient(circle at 50% 0%, rgba(255,255,255,.18), transparent 36%);
+  animation: hero-light-drift 10s ease-in-out infinite alternate;
+}
+.premium-hero-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 95px;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(180deg, transparent 55%, rgba(3, 18, 39, .22));
+}
+@keyframes hero-light-drift {
+  from { transform: translateX(-2%); opacity: .72; }
+  to { transform: translateX(2%); opacity: 1; }
+}
+.premium-hero-header .logo {
+  z-index: 2;
+  gap: 5px;
+  margin: 0 !important;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #c9f5f6;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-shadow: 0 2px 10px rgba(0,0,0,.5);
+}
+.hero-eyebrow i { color: #f5c977; }
+.premium-hero-header .logo h1 {
+  position: relative;
+  margin: 0;
+  padding: 7px 22px;
+  border-radius: 18px;
+  font-size: clamp(1.55rem, 3.1vw, 2.35rem);
+  line-height: 1.25;
+  color: #142f49 !important;
+  text-shadow: 0 1px 1px rgba(255,255,255,.72);
+  background: linear-gradient(135deg, rgba(255,255,255,.20), rgba(255,255,255,.07)) !important;
+  border: 1px solid rgba(255,255,255,.35) !important;
+  box-shadow: 0 16px 38px rgba(0,0,0,.24), inset 0 1px rgba(255,255,255,.35) !important;
+  backdrop-filter: blur(16px);
+  transform-style: preserve-3d;
+  will-change: transform, opacity, filter;
+}
+.premium-hero-header .logo h1.title-flipping {
+  animation: gate-title-flip .9s cubic-bezier(.22, .8, .24, 1) both;
+}
+@keyframes gate-title-flip {
+  0% { transform: perspective(700px) rotateY(0); opacity: 1; filter: brightness(1); }
+  43% { transform: perspective(700px) rotateY(82deg) scale(.96); opacity: .22; filter: brightness(1.35) blur(1px); }
+  57% { transform: perspective(700px) rotateY(278deg) scale(.96); opacity: .22; filter: brightness(1.35) blur(1px); }
+  100% { transform: perspective(700px) rotateY(360deg); opacity: 1; filter: brightness(1); }
+}
+.premium-hero-header .logo h1::after {
+  content: "";
+  position: absolute;
+  right: 14%;
+  bottom: -7px;
+  left: 14%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #58d5e8, #f5c977, transparent);
+  opacity: .9;
+}
+.premium-hero-header .logo p {
+  max-width: min(680px, 92vw);
+  margin: 0 !important;
+  padding: 6px 18px !important;
+  color: #effcff !important;
+  font-size: clamp(.78rem, 1.6vw, 1rem);
+  background: rgba(3, 21, 40, .42) !important;
+  border: 1px solid rgba(189, 238, 245, .20);
+  border-radius: 999px;
+  box-shadow: 0 8px 22px rgba(0,0,0,.16);
+  backdrop-filter: blur(12px);
+}
+.premium-hero-header .header-buttons {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px !important;
+  margin-top: 2px !important;
+  max-width: min(820px, 96vw);
+}
+.premium-hero-header .icon-btn {
+  position: relative;
+  z-index: 5;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  color: #fff !important;
+  background: rgba(4, 27, 48, .48) !important;
+  border: 1px solid rgba(217, 249, 255, .44) !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.25), inset 0 1px rgba(255,255,255,.22);
+  backdrop-filter: blur(14px);
+  transition: transform .25s ease, background .25s ease, box-shadow .25s ease;
+}
+.premium-hero-header .icon-btn:hover,
+.premium-hero-header .icon-btn:focus-visible {
+  color: #061629 !important;
+  background: linear-gradient(135deg, #63dce8, #8aa4ff) !important;
+  border-color: rgba(255,255,255,.9) !important;
+  transform: translateY(-5px) scale(1.06);
+  box-shadow: 0 14px 28px rgba(41, 185, 214, .34), 0 0 0 4px rgba(88,213,232,.13);
+  outline: none;
+}
+.premium-hero-header .icon-btn i { color: inherit !important; }
+.hero-status-line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  color: #d8f7f8;
+  font-size: .72rem;
+  font-weight: 700;
+  direction: rtl;
+}
+.hero-status-line span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid rgba(182,232,245,.22);
+  border-radius: 999px;
+  background: rgba(3,25,45,.34);
+  backdrop-filter: blur(10px);
+}
+.hero-status-line i { color: #72e0c0; }
+
+/* Desktop uses a purposefully wider compound photo. A 4:3 aerial image cannot
+   fill a wide header without either severe cropping or empty side bands. */
+@media (min-width: 701px) {
+  .premium-hero-header {
+    background:
+      linear-gradient(115deg, rgba(3, 18, 39, .16), rgba(7, 45, 71, .07) 48%, rgba(8, 25, 49, .16)),
+      url('photo/KC.jpg') center 62% / cover no-repeat !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .premium-hero-header {
+    min-height: 204px;
+    padding: 16px 10px 13px !important;
+    width: min(calc(100% - 10px), 700px);
+    margin-top: 4px;
+    border-width: 3px !important;
+    border-radius: 50% 50% 15px 15px / 34px 34px 15px 15px;
+    /* The mobile viewport is close to the photo ratio: cover removes side
+       bands while trimming only a small, non-essential vertical edge. */
+    background:
+      linear-gradient(115deg, rgba(3, 18, 39, .14), rgba(7, 45, 71, .06) 48%, rgba(8, 25, 49, .14)),
+      url('KC31.jpg') center 48% / cover no-repeat !important;
+  }
+  .premium-hero-header .header-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: clamp(3px, 1.4vw, 6px) !important;
+    width: min(92vw, 300px);
+    max-width: none;
+  }
+  .premium-hero-header .icon-btn {
+    width: clamp(30px, 9.8vw, 38px);
+    height: clamp(30px, 9.8vw, 38px);
+    flex: 0 1 clamp(30px, 9.8vw, 38px);
+    font-size: clamp(.9rem, 3.8vw, 1.1rem);
+  }
+  .premium-hero-header .icon-with-card-container {
+    width: clamp(30px, 9.8vw, 38px);
+    height: clamp(30px, 9.8vw, 38px);
+    flex: 0 1 clamp(30px, 9.8vw, 38px);
+  }
+  .premium-hero-header .icon-with-card-container .icon-btn { display: grid; place-items: center; }
+  .hero-status-line { gap: 5px; font-size: .66rem; }
+  .hero-status-line span { padding: 5px 7px; }
+}
+@media (max-width: 430px) {
+  .premium-hero-header { min-height: 226px; }
+  .hero-eyebrow { font-size: .66rem; }
+  .premium-hero-header .logo p { white-space: normal; text-align: center; border-radius: 12px; }
+  .premium-hero-header .header-buttons { width: min(94vw, 300px); }
+  .hero-status-line span:last-child { display: none; }
+}
+
+/* Memorial card: centre the collective prayer and remove the old black ribbon. */
+.memorial-group-card .memorial-art-caption {
+  right: 50%;
+  transform: translateX(50%);
+  white-space: nowrap;
+}
+.memorial-verse--replacement { margin-top: 4px; }
+.memorial-verse-source--replacement { margin-top: 11px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .premium-hero-header::before { animation: none; }
+  .premium-hero-header .icon-btn { transition: none; }
+  .premium-hero-header .logo h1.title-flipping { animation: none; }
+}

@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>خدمات عامة وجهات حكومية | بوابة الكنزاوية</title>
+  <meta name="description" content="دليل الخدمات العامة والجهات الحكومية (غاز، كهرباء، مياه، سجلات مدنية، مكاتب بريد، وحدات صحية، أقسام، مراكز، شركات) حول كمبوند كنز والمناطق المجاورة مع التقييمات."/>
+  <!-- Google Analytics (keep as-is) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FX6BSCQ8KQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-FX6BSCQ8KQ', { 'anonymize_ip': true });
+</script>
+  <link href="../styles.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+    <script src="data/general_services.js"></script>
+    <script src="service_data_renderer.js"></script>
+    <script src="../app.js" type="module"></script>
+  <style>
+        .header {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: #4a90e2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 16px 0 8px 0;
+        }
+        .logo h1 {
+            margin: 0;
+            font-size: 2.1rem;
+            color: #f9fdff;
+            font-weight: bold;
+          background: none;
+        }
+        .logo p {
+            margin: 0;
+            color: #f9fdff;
+            font-size: 1.1rem;
+          background: none;
+        }
+        .main-content {
+            max-width: 950px;
+            margin: 0 auto;
+            padding-top: 75px;
+            padding-bottom: 40px;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            background-color: #dee8f0;
+            color: #007bff;
+            font-size: 0.7em;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0;
+            line-height: 1;
+            text-align: center;
+            box-shadow: 0 -2px 8px rgba(0,0,0,0.04);
+        }
+        .section-card {
+            background: linear-gradient(120deg,#e6f7ff 70%,#f0f2f5 100%);
+            margin-top: 25px;
+            box-shadow: 0 8px 32px rgba(74,144,226,0.11);
+        }
+        .services-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(305px, 1fr));
+            gap: 22px;
+            margin-top: 30px;
+        }
+        .service-card {
+            background-color: #fff;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+            padding: 18px 22px 14px 22px;
+            transition: box-shadow 0.2s;
+            position: relative;
+            overflow:hidden;
+        }
+        .service-card:hover {
+            box-shadow: 0 8px 32px rgba(74,144,226,0.16);
+        }
+        .service-title {
+            font-size: 1.15em;
+            font-weight: bold;
+            color: #2567a1;
+            margin-bottom: 3px;
+        }
+        .service-address {
+            color: #888;
+            font-size: 0.97em;
+            margin-bottom: 3px;
+        }
+        .service-phone {
+            font-size: 1.03em;
+            color: #007bff;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 9px;
+        }
+        .average-rating {
+            margin: 10px 0 8px 0;
+            font-weight: bold;
+            color: #ff9800;
+            font-size: 1.07em;
+        }
+        .old-likes-info {
+            color: #777;
+            font-size: 0.92em;
+            margin-bottom: 5px;
+        }
+        .label {
+            background: #4a90e2;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 0.9em;
+            padding: 2px 7px;
+            margin-left: 5px;
+        }
+                /* شارة عدد الكروت */
+.count-badge{
+  background:linear-gradient(145deg,#ff9800,#ffb74d);
+  color:#fff;
+  font-weight:700;
+  font-size:0.78rem;
+  padding:6px 12px 7px;
+  border-radius:30px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-right:10px;
+  box-shadow:0 3px 10px rgba(0,0,0,.18);
+  position:relative;
+}
+.count-badge:before{
+  content:"#";
+  font-size:.75rem;
+  opacity:.85;
+}
+@media (max-width:600px){
+  .count-badge{
+    margin-top:8px;
+    font-size:0.72rem;
+    padding:5px 10px 6px;
+  }
+}
+
+        @media (max-width:600px) {
+            .services-list {
+                grid-template-columns: 1fr;
+            }
+            .section-card {
+                padding: 18px 6px 8px 6px;
+            }
+  .header{
+    padding:10px 0 6px;
+  }
+  .logo h1{
+    font-size:1.55rem;
+  }
+  .logo p{
+    font-size:0.9rem;
+  }
+}
+                /* ---- إصلاح خروج محتوى الهواتف والبادجات (حل A) ---- */
+        .service-card { overflow:hidden; }
+
+        .service-phone {
+            display:flex;
+            flex-wrap:wrap;
+            align-items:center;
+            gap:6px 8px;
+            line-height:1.4;
+        }
+        .service-phone a {
+            color:#007bff;
+            text-decoration:none;
+            font-weight:600;
+            direction:ltr;
+            unicode-bidi:plaintext;
+            white-space:nowrap;
+            font-size:0.95em;
+        }
+        .service-phone a:hover { text-decoration:underline; }
+
+        .service-phone .label {
+            background:#4a90e2;
+            color:#fff;
+            border-radius:6px;
+            padding:3px 8px 4px;
+            font-size:0.75rem;
+            line-height:1.2;
+            display:inline-flex;
+            align-items:center;
+            white-space:nowrap;
+            margin:2px 0;
+            order:2;
+        }
+        .service-phone .label:first-of-type {
+            flex-basis:100%;
+            margin-top:4px;
+        }
+        .service-phone .label:first-of-type + .label {
+            flex-basis:100%;
+        }
+        .service-phone a[target="_blank"] {
+            background:#0d7d2a;
+            color:#fff;
+            padding:4px 10px;
+            border-radius:6px;
+            font-size:0.72rem;
+            font-weight:600;
+            white-space:nowrap;
+            order:3;
+            text-decoration:none;
+        }
+        .service-phone a[target="_blank"]:hover {
+            background:#0a5c20;
+        }
+    </style>
+    <link rel="stylesheet" href="../premium-ui.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <link rel="stylesheet" href="../button-contrast.css">
+</head>
+<body data-page="general_services">
+<header class="header">
+  <div class="logo">
+    <h1>بوابة الكنزاوية</h1>
+    <p>دليل الخدمات العامة والجهات الحكومية</p>
+  </div>
+  <div style="width:100%;display:flex;justify-content:flex-start;align-items:center;padding-right:35px;margin-top:2px;">
+    <a href="../index.html" class="icon-btn" data-tooltip="العودة للصفحة الرئيسية"
+       style="background:rgba(255,255,255,.2);color:#fff;font-size:2rem;margin-right:10px;">
+      <i class="fas fa-home"></i>
+    </a>
+  </div>
+</header>
+
+<main class="main-content">
+  <section class="section-card">
+    <h2 style="font-size:1.6rem;margin-bottom:7px;">
+      <i class="fa-solid fa-city" style="color:#4a90e2;margin-left:8px;"></i>
+      خدمات عامة وجهات حكومية
+    </h2>
+    <p style="color:#555;margin:0 0 18px;font-size:1.02em;line-height:1.55;text-align:center;">
+      دليل شامل  للمرافق والجهات الحكومية مع إمكانية تقييمك وتعليقك لدعم تحسين الخدمة.
+    </p>
+
+    <div class="services-list">
+
+      <!-- 1 شركة ناتجاس -->
+      <div class="service-card">
+        <div class="service-title">شركة ناتجاس للغاز الطبيعي</div>
+        <div class="service-address">شارع الصفا والمروة بجوار مطعم حضرموت - مدينة الفردوس</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:19390">19390</a>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.94640242171452,31.051354652283962" aria-label="موقع الشركة على الخريطة">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-726">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="726">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن الشركة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 2 شركة كهرباء حدائق اكتوبر -->
+      <div class="service-card">
+        <div class="service-title">شركة كهرباء حدائق أكتوبر</div>
+        <div class="service-address">هرم سيتي</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم مدرج</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.951139879654296,31.00780146385141">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-727">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="727">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن الشركة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 3 شركة مياه حدائق اكتوبر -->
+      <div class="service-card">
+        <div class="service-title">شركة مياه حدائق أكتوبر</div>
+        <div class="service-address">شارع أحمد زويل بجوار جهاز المدينة وأمام إلموندو مول</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم مدرج</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.936367763417326,31.044081323270465">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-728">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="728">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن الشركة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 4 سجل مدني هرم سيتي -->
+      <div class="service-card">
+        <div class="service-title">السجل المدني - هرم سيتي</div>
+        <div class="service-address">طريق وادي النطرون بعد صينية البترول بجوار كمبوند دار مصر</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.947777064115332,31.020972528654223">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-729">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="729">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن السجل المدني..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 5 مرور حدائق اكتوبر (طريق استوريا بارك) -->
+      <div class="service-card">
+        <div class="service-title">مرور حدائق اكتوبر </div>
+        <div class="service-address">طريق استوريا بارك متفرع من طريق الحي الإيطالي بجوار هيئة قضايا الدولة</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.9291435442347,31.075136581118404">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-730">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="730">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن السجل المدني..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 6 الوحدة الصحية (خلف مول البنفسج) -->
+      <div class="service-card">
+        <div class="service-title">الوحدة الصحية - مساكن دهشور</div>
+        <div class="service-address">خلف مول البنفسج</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.887558096550254,31.066253708104256">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-731">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="731">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+            <textarea class="comment-text" placeholder="اكتب تعليقك عن الوحدة الصحية..."></textarea>
+            <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 7 الوحدة الصحية (المنطقة الثانية) -->
+      <div class="service-card">
+        <div class="service-title">الوحدة الصحية - المنطقة الثانية</div>
+        <div class="service-address">من طريق الحي الإيطالي بجوار مسجد البيت المعمور</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=30.37260793112247,30.53843289463582">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-732">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="732">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن الوحدة الصحية..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 8 الوحدة الصحية (المرحلة الخامسة) -->
+      <div class="service-card">
+        <div class="service-title">الوحدة الصحية - المرحلة الخامسة (ابني بيتك)</div>
+        <div class="service-address">امتداد شارع زويل</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.92932488082235,31.031207152283127">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-733">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="733">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن الوحدة الصحية..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 9 سنترال الزهور -->
+      <div class="service-card">
+        <div class="service-title">سنترال الزهور</div>
+        <div class="service-address">سوق الجملة داخل كمبوند سكن مصر</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.955172240105554,31.03093463694313">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-734">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="734">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن السنترال..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 10 مكتب بريد كوميكس -->
+      <div class="service-card">
+        <div class="service-title">مكتب بريد كوميكس</div>
+        <div class="service-address">كمبوند كوميكس جاردنز بعد كمبوند بيت المصرية أول شارع يمين</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.906716099031115,31.065918553085908">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-735">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="735">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن مكتب البريد..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 11 قسم جوازات 6 أكتوبر -->
+      <div class="service-card">
+        <div class="service-title">قسم جوازات 6 أكتوبر</div>
+        <div class="service-address">طريق التحرير الحي السادس بعد ميدان فودافون</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.945425977854104,30.91628963710597">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="old-likes-info" id="old-likes-736">
+          👍 <span class="like-count">0</span> | 👎 <span class="dislike-count">0</span>
+          <small style="color:#888;display:block;">هذا التقييم بنظام الإعجاب/عدم الإعجاب (قديم)</small>
+        </div>
+        <div class="star-rating-comment" data-service-id="736">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن قسم الجوازات..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 12 قسم ثالث 6 أكتوبر (بدون old-likes في البيانات الأصلية) -->
+      <div class="service-card">
+        <div class="service-title">قسم ثالث 6 أكتوبر</div>
+        <div class="service-address">طريق 6 أكتوبر وادي النطرون بعد كمبوند دار مصر</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.9473759109492,31.020634358621326">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="star-rating-comment" data-service-id="737">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن القسم..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 13 قسم أول 6 أكتوبر -->
+      <div class="service-card">
+        <div class="service-title">قسم أول 6 أكتوبر</div>
+        <div class="service-address">الحي السابع - مدينة 6 أكتوبر</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.978570604940113,30.941748616795422">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="star-rating-comment" data-service-id="738">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن القسم..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 14 مكتب الشهر العقاري والتوثيق المطور -->
+      <div class="service-card">
+        <div class="service-title">مكتب الشهر العقاري والتوثيق (المطور) - فرع 6 أكتوبر</div>
+        <div class="service-address">محور 26 يوليو بجوار جهاز مدينة 6 أكتوبر</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.979604846443184,30.95234222336696">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="star-rating-comment" data-service-id="739">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن المكتب..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 15 شركة فرست جروب (الفرع الرئيسي) -->
+      <div class="service-card">
+        <div class="service-title">شركة فرست جروب - الفرع الرئيسي</div>
+        <div class="service-address">المهندسين - 65 شارع جامعة الدول العربية</div>
+        <div class="service-phone">
+          <i class="fa-solid fa-phone-volume"></i>
+          <a href="tel:19390">0233370680</a>          
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=30.047859070631947,31.196124925204824">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="star-rating-comment" data-service-id="740">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن الشركة..."></textarea>
+            <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+      <!-- 16 شركة فرست جروب (فرع 6 أكتوبر) -->
+      <div class="service-card">
+        <div class="service-title">شركة فرست جروب - فرع 6 أكتوبر</div>
+        <div class="service-address">375 المحور المركزي الحي الثاني بعد جامع الحصري وأمام موقف بلو باص</div>
+        <div class="service-phone">
+          <span class="no-phone">لا يوجد رقم</span>
+          <a class="map-link" target="_blank" rel="noopener" href="https://maps.google.com/?q=29.967880452737287,30.938230551855394">
+            <i class="fas fa-map-marker-alt"></i> خريطة
+          </a>
+        </div>
+        <div class="star-rating-comment" data-service-id="741">
+          <div class="star-rating">
+            <span class="star" data-value="1">★</span><span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span><span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+          </div>
+          <textarea class="comment-text" placeholder="اكتب تعليقك عن الشركة..."></textarea>
+          <button class="submit-rating">إرسال التقييم</button><div class="all-comments"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer dir="rtl">
+  <p>Copyright © 2024 SESMA Technology All Rights Reserved</p>
+</footer>
+    <script>
+    // شارة عدد الكروت
+    document.addEventListener('DOMContentLoaded', function(){
+        const h2 = document.querySelector('.section-card h2');
+        const list = document.querySelector('.services-list');
+        if(h2 && list){
+            const count = list.querySelectorAll('.service-card').length;
+            const badge = document.createElement('span');
+            badge.className = 'count-badge';
+            badge.textContent = 'العدد الحالي: ' + count;
+            h2.appendChild(badge);
+        }
+    });
+    </script>
+
+    <script src="../premium-motion.js?v=2" defer></script>
+</body>
+</html>
+
+
